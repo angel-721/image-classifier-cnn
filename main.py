@@ -16,7 +16,7 @@ def parse_args():
     parser = argparse.ArgumentParser(
         prog="Image Classifier", description="A Image Classifier using PyTorch")
     parser.add_argument('action', default="train", choices=[
-        "train", "test", "predict"], nargs="?")
+        "train", "test", "predict", "show"], nargs="?")
     parser.add_argument("--score", '-s',
                         default=0, type=int)
     parser.add_argument("--epochs", '-e',
@@ -27,6 +27,8 @@ def parse_args():
                         default="./models/model1.pth", type=str)
     parser.add_argument("--data-dir", '-d',
                         default="./data", type=str)
+    parser.add_argument("--image", '-i',
+                        default="./inputs/test.png", type=str)
     args = parser.parse_args()
     return args
 
@@ -43,6 +45,10 @@ def main(args):
         network.train(args.model_path,args.epochs)
     elif args.action == "test":
         network.test(args.model_path)
+    elif args.action == "predict":
+        network.predict_chance(args.image, args.model_path)
+    elif args.action == "show":
+        network.show_model(args.model_path)
     if args.score != 0:
         network.score()
 
